@@ -1,0 +1,33 @@
+name: terraform cicd pipeline for deploying aws resources
+run-name: ${{ github.actor }} has triggered the pipeline
+
+on: 
+  push:
+    branches:
+      - 'main'
+#env:
+# AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+# AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS+SECRET_ACCESS_KEY }}
+
+jobs:
+  build-infra:
+    name: terraform-ci-cd
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: set up Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: terraform init
+        id: init
+        run: terraform init
+        working-directory: ./terraform-vpc
+      - name: terrraform validate
+        run: terraform validate
+        working-directory: ./terraform-vpc
+      - name: terraform plan
+        run: terraform plan
+        working-directory: ./terraform-vpc
+      - name: terraform apply
+        run: terraform apply --auto-approve
+        working-directory: ./terraform-vpc
