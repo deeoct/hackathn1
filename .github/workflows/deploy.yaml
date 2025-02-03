@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - 'main'
+  workflow_dispatch:
 #env:
 # AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
 # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS+SECRET_ACCESS_KEY }}
@@ -38,3 +39,5 @@ jobs:
       - name: terraform apply
         run: terraform apply --auto-approve
        # working-directory: ./terraform-vpc
+      - name: terraform destroy
+        run: terraform destroy --auto-approve
